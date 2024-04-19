@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container-scoreboard {
+    border-style: solid;
+    padding: 10px;
+}

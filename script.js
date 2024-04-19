@@ -1,3 +1,6 @@
+let PLAYER_WINS_NUM = 0
+let COMPUTER_WINS_NUM = 0
+
 function getRandomInt(max){
     return Math.floor(Math.random() * max)
 }
@@ -37,12 +40,12 @@ function playRound(playerSelection, computerSelection){
     }
 }
 
-function playGame(){
+function playGameOld(userInput){
     let player = 0
     let computer = 0
     for (let i = 1; i<=5; i++){
         console.log("Round " + i + " Start!")
-        let userInput = prompt().toUpperCase()
+        //let userInput = prompt().toUpperCase()
         let computerInput = getComputerChoice()
         let status = playRound(userInput, computerInput)
         if (status === 1){
@@ -62,5 +65,70 @@ function playGame(){
     }
 }
 
-playGame()
+function deleteAllChild(node){
+    node.innerHTML = ""
+}
+
+function playGame(userInput){
+    let computerInput = getComputerChoice()
+    let status = playRound(userInput, computerInput)
+    const div_result = document.querySelector(".result")
+    const container_scoreboard = document.querySelector(".container-scoreboard")
+    const scoreboard = document.querySelector(".scoreboard")
+    deleteAllChild(container_scoreboard)
+    if (status === 1){
+        const outcomeText = "PLAYER WIN! Player: " + userInput + "| Computer: " + computerInput   
+        PLAYER_WINS_NUM++
+        const p = document.createElement("p")
+        p.textContent = outcomeText
+        div_result.appendChild(p)
+        
+        scoreboard.textContent = "PLAYER: " + PLAYER_WINS_NUM + " || COMPUTER: " + COMPUTER_WINS_NUM
+        container_scoreboard.appendChild(scoreboard)
+        
+    } else if (status === -1){
+        const outcomeText = "COMPUTER WIN! Player: " + userInput + "| Computer: " + computerInput
+        COMPUTER_WINS_NUM++
+        const p = document.createElement("p")
+        p.textContent = outcomeText
+        div_result.appendChild(p)
+
+        scoreboard.textContent = "PLAYER: " + PLAYER_WINS_NUM + " || COMPUTER: " + COMPUTER_WINS_NUM
+        container_scoreboard.appendChild(scoreboard)
+    } else {
+        const outcomeText = "TIE! Player: " + userInput + "| Computer: " + computerInput
+        const p = document.createElement("p")
+        p.textContent = outcomeText
+        div_result.appendChild(p)
+
+        scoreboard.textContent = "PLAYER: " + PLAYER_WINS_NUM + " || COMPUTER: " + COMPUTER_WINS_NUM
+        container_scoreboard.appendChild(scoreboard)
+    }
+}
+
+
+
+const div_game_buttons = document.querySelector(".game-buttons")
+
+div_game_buttons.addEventListener("click", (event) => {
+
+    let target = event.target
+
+    switch(target.id){
+        case "btn-rock":
+            playGame("ROCK")
+            break
+        case "btn-paper":
+            playGame("PAPER")
+            break
+        case "btn-scissors":
+            playGame("SCISSORS")
+            break
+    }
+})
+
+
+document.querySelector(".del-btn").addEventListener("click", () => {
+    deleteAllChild(document.querySelector(".result"))
+})
 
